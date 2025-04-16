@@ -9,8 +9,9 @@
 	},
 	"scripts": {
 		"build": "tsc",
-		"dev": "tsc --watch",
-		"test": "prettier --check . && xo && ava"
+		"watch": "tsc --watch",
+		"test": "prettier --check . && xo && ava",
+		"run-app": "tsc && node dist/cli.js"
 	},
 	"files": [
 		"dist"
