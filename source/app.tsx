@@ -1,13 +1,25 @@
 import React, {useState} from 'react';
-import {Text, Box, useInput} from 'ink';
+import {Text, Box, useInput, useApp} from 'ink';
 
 type Mode = 'select' | 'git' | 'test';
 
+interface Message {
+	text: string;
+	isUser: boolean;
+}
+
+const seedMessages: Message[] = [
+	{text: 'hello', isUser: false},
+	{text: 'how are you?', isUser: false},
+	{text: 'i am good, thank you!', isUser: true},
+];
+
 export default function App() {
+	const {exit} = useApp();
 	const [mode, setMode] = useState<Mode>('select');
 	const [selectedIndex, setSelectedIndex] = useState(0);
-	const [input, setInput] = useState('');
-	const [submitted, setSubmitted] = useState(false);
+	const [inputText, setInputText] = useState('');
+	const [messages, setMessages] = useState<Message[]>(seedMessages);
 
 	const modes: Mode[] = ['git', 'test'];
 
@@ -26,17 +38,29 @@ export default function App() {
 		}
 
 		if (mode === 'git') {
-			if (key.return) {
-				setSubmitted(true);
+			if (key.return && inputText.trim()) {
+				if (inputText.trim() === 'exit' || inputText.trim() === 'quit') {
+					exit();
+					return;
+				}
+				setMessages(prev => [
+					...prev,
+					{text: inputText, isUser: true},
+					{text: 'hello', isUser: false},
+				]);
+				setInputText('');
 				return;
 			}
 
 			if (key.backspace || key.delete) {
-				setInput(prev => prev.slice(0, -1));
+				setInputText(prev => prev.slice(0, -1));
 				return;
 			}
 
-			setInput(prev => prev + input);
+			if (input && !key.ctrl && !key.meta) {
+				const newInputText = inputText + input;
+				setInputText(newInputText.trim());
+			}
 		}
 	});
 
@@ -64,17 +88,23 @@ export default function App() {
 
 	// Git mode
 	return (
-		<Box flexDirection="column" padding={1}>
-			<Box>
-				<Text>Ask a question: </Text>
-				<Text>{input}</Text>
+		<Box flexDirection="column" padding={1} gap={1}>
+			<Box flexDirection="column" marginBottom={1}>
+				{messages.map((message, index) => (
+					// eslint-disable-next-line react-x/no-array-index-key
+					<Box key={index}>
+						<Text color={message.isUser ? 'yellow' : 'green'}>
+							{message.isUser ? 'You: ' : 'Bot: '}
+							{message.text}
+						</Text>
+					</Box>
+				))}
 			</Box>
 
-			{submitted && (
-				<Box marginTop={1}>
-					<Text color="green">hello!</Text>
-				</Box>
-			)}
+			<Box>
+				<Text>Message: </Text>
+				<Text>{inputText}</Text>
+			</Box>
 		</Box>
 	);
 }
