@@ -1,7 +1,9 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
-		"outDir": "dist"
+		"outDir": "dist",
+		"moduleResolution": "node16",
+		"module": "node16"
 	},
 	"include": ["source"]
 }

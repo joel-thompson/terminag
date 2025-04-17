@@ -1,29 +1,30 @@
 #!/usr/bin/env node
 import React from 'react';
 import {render} from 'ink';
-// import meow from 'meow';
+import meow from 'meow';
 import App from './app.js';
+import {Mode} from './selectMode/selectMode.js';
 
-// const cli = meow(
-// 	`
-// 	Usage
-// 	  $ terminag
+const cli = meow(
+	`
+    Usage
+      $ terminag
 
-// 	Options
-// 		--name  Your name
+    Options
+      --mode  The mode to run the CLI in
 
-// 	Examples
-// 	  $ terminag --name=Jane
-// 	  Hello, Jane
-// `,
-// 	{
-// 		importMeta: import.meta,
-// 		flags: {
-// 			name: {
-// 				type: 'string',
-// 			},
-// 		},
-// 	},
-// );
+    Examples
+      $ terminag --mode=git
 
-render(<App />);
+  `,
+	{
+		importMeta: import.meta,
+		flags: {
+			mode: {
+				type: 'string',
+			},
+		},
+	},
+);
+
+render(<App startingMode={cli.flags.mode as Mode} />);

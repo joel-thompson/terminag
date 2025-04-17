@@ -3,8 +3,8 @@ import {Text, Box} from 'ink';
 import GitMode from './gitMode/gitMode.js';
 import SelectMode, {Mode} from './selectMode/selectMode.js';
 
-export default function App() {
-	const [mode, setMode] = useState<Mode>('select');
+export default function App({startingMode}: {startingMode: Mode}) {
+	const [mode, setMode] = useState<Mode>(startingMode || 'select');
 	const [selectedIndex, setSelectedIndex] = useState(0);
 
 	if (mode === 'select') {
