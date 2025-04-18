@@ -59,6 +59,12 @@ export default function GitMode() {
 				return;
 			}
 
+			if (inputText.trim() === 'clear') {
+				setMessages(seedMessages);
+				setInputText('');
+				return;
+			}
+
 			void handleMessage(inputText);
 			return;
 		}
