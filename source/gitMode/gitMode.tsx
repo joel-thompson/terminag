@@ -32,7 +32,13 @@ export default function GitMode() {
 		const newMessages = [...messages, {text: message, isUser: true}];
 		setMessages(newMessages);
 		const {text} = await generateText({
-			model: openai('gpt-4.1'),
+			model: openai.responses('gpt-4.1'),
+			tools: {
+				web_search_preview: openai.tools.webSearchPreview({
+					// optional configuration:
+					// searchContextSize: 'high',
+				}),
+			},
 			system:
 				'You are a Git expert assistant who specializes in version control best practices. You can help with Git commands, workflows, branching strategies, merge conflicts, repository management, and other Git-related tasks. You provide clear, practical solutions and explain Git concepts in an easy-to-understand way.',
 			messages: newMessages.map(m => ({
