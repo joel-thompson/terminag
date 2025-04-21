@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {generateText} from 'ai';
 import openai from '../ai/openai.js';
 import Spinner from 'ink-spinner';
+import {Mode} from '../selectMode/selectMode.js';
 
 interface Message {
 	text: string;
@@ -20,7 +21,7 @@ const seedMessages: Message[] = [
 	},
 ];
 
-export default function GitMode() {
+export default function GitMode({setMode}: {setMode: (mode: Mode) => void}) {
 	const {exit} = useApp();
 	const [inputText, setInputText] = useState('');
 	const [messages, setMessages] = useState<Message[]>(seedMessages);
@@ -56,6 +57,11 @@ export default function GitMode() {
 			if (isLoading || !inputText.trim()) return;
 			if (inputText.trim() === 'exit' || inputText.trim() === 'quit') {
 				exit();
+				return;
+			}
+
+			if (inputText.trim() === 'back') {
+				setMode('select');
 				return;
 			}
 

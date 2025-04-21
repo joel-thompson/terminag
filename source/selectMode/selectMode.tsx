@@ -1,8 +1,8 @@
 import React from 'react';
-import {Text, Box, useInput} from 'ink';
+import {Text, Box, useInput, useApp} from 'ink';
 
-export type Mode = 'select' | 'git' | 'test';
-const modes: Mode[] = ['git', 'test'] as const;
+export type Mode = 'select' | 'git-chat' | 'actions';
+const modes: Mode[] = ['git-chat', 'actions'] as const;
 
 export default function SelectMode({
 	setMode,
@@ -13,7 +13,13 @@ export default function SelectMode({
 	selectedIndex: number;
 	setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
 }) {
-	useInput((_input, key) => {
+	const {exit} = useApp();
+	useInput((input, key) => {
+		if (input === 'q') {
+			exit();
+			return;
+		}
+
 		if (key.upArrow) {
 			setSelectedIndex(prev => (prev > 0 ? prev - 1 : prev));
 		}
@@ -23,18 +29,27 @@ export default function SelectMode({
 		if (key.return && modes[selectedIndex]) {
 			setMode(modes[selectedIndex]);
 		}
+
+		const inputNumber = Number(input);
+		const mode = modes[inputNumber - 1];
+		if (inputNumber <= modes.length && inputNumber >= 1 && mode) {
+			setMode(mode);
+			return;
+		}
 		return;
 	});
 
 	return (
-		<Box flexDirection="column" padding={1}>
+		<Box flexDirection="column" padding={1} gap={1}>
 			<Text>Select a mode:</Text>
-			{modes.map((m, index) => (
-				<Text key={m} color={index === selectedIndex ? 'green' : undefined}>
-					{index === selectedIndex ? '> ' : '  '}
-					{m}
-				</Text>
-			))}
+			<Box flexDirection="column">
+				{modes.map((m, index) => (
+					<Text key={m} color={index === selectedIndex ? 'green' : undefined}>
+						{index === selectedIndex ? `> ${index + 1}. ` : `  ${index + 1}. `}
+						{m}
+					</Text>
+				))}
+			</Box>
 		</Box>
 	);
 }

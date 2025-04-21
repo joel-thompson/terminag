@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Text, Box} from 'ink';
 import GitMode from './gitMode/gitMode.js';
 import SelectMode, {Mode} from './selectMode/selectMode.js';
+import ActionsMode from './actions/ActionsMode.js';
 
 export default function App({startingMode}: {startingMode: Mode}) {
 	const [mode, setMode] = useState<Mode>(startingMode || 'select');
@@ -17,16 +18,12 @@ export default function App({startingMode}: {startingMode: Mode}) {
 		);
 	}
 
-	if (mode === 'test') {
-		return (
-			<Box padding={1}>
-				<Text>test mode</Text>
-			</Box>
-		);
+	if (mode === 'git-chat') {
+		return <GitMode setMode={setMode} />;
 	}
 
-	if (mode === 'git') {
-		return <GitMode />;
+	if (mode === 'actions') {
+		return <ActionsMode setMode={setMode} />;
 	}
 
 	return (
