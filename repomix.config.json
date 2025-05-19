@@ -1,0 +1,32 @@
+{
+	"output": {
+		"filePath": "repomix-output.md",
+		"style": "markdown",
+		"parsableStyle": true,
+		"fileSummary": true,
+		"directoryStructure": true,
+		"removeComments": false,
+		"removeEmptyLines": false,
+		"compress": false,
+		"topFilesLength": 5,
+		"showLineNumbers": false,
+		"copyToClipboard": false,
+		"instructionFilePath": "repomix-instruction.md"
+	},
+	"include": [],
+	"ignore": {
+		"useGitignore": true,
+		"useDefaultPatterns": true,
+		"customPatterns": [
+			"repomix-instruction.md",
+			"repomix.config.json",
+			"_tech-plans"
+		]
+	},
+	"security": {
+		"enableSecurityCheck": true
+	},
+	"tokenCount": {
+		"encoding": "o200k_base"
+	}
+}

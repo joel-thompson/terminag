@@ -1,0 +1,1 @@
+This file is the output of my terminag project. Use it as a reference for other projects built using the 'ink' library.
